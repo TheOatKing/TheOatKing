@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sign in — Demo</title>
+<style>
+  :root{
+    --page-bg:#202124;       /* page background */
+    --card-bg:#0f0f10;       /* main card interior */
+    --panel-bg:#141416;      /* inner panel */
+    --muted:#bfc3c6;
+    --text:#ffffff;
+    --input-border:#3a3c3e;
+    --accent:#8ab4f8;
+    --accent-strong:#1a73e8;
+    --card-radius:24px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    height:100vh;
+    font-family:"Roboto","Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    background:var(--page-bg);
+    color:var(--text);
+    display:flex;
+    align-items:center;      /* centers vertically */
+    justify-content:center;  /* centers horizontally */
+    }
+
+
+  /* Card wrapper */
+  .card {
+    width: min(1000px, 92vw);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)), var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 36px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    display:flex;
+    gap:32px;
+    align-items:stretch;
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* demo banner */
+  .demo-banner {
+    position:absolute;
+    top:12px;
+    left:12px;
+    background: #b02a2a;
+    color:#fff;
+    padding:6px 10px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0.2px;
+  }
+
+  /* Left column (copy/branding) */
+  .left {
+    flex:1.1;
+    padding: 16px 8px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+
+  .logo {
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background: conic-gradient(from 0deg, #ea4335, #fbbc05, #34a853, #4285f4);
+    margin-bottom:22px;
+  }
+
+  .title {
+    font-size:44px;
+    line-height:1;
+    margin:0 0 18px 0;
+    font-weight:700;
+  }
+
+  .desc {
+    color:var(--muted);
+    font-size:15px;
+    max-width:520px;
+    margin:0;
+  }
+
+  /* Right column (form area) */
+  .right {
+    width:420px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+    border-radius: 12px;
+    padding:28px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    gap:12px;
+  }
+
+  .form-row { display:flex; flex-direction:column; gap:10px; }
+
+  .input {
+    height:48px;
+    border-radius:6px;
+    border:1px solid var(--input-border);
+    background: transparent;
+    padding:0 12px;
+    font-size:15px;
+    color:var(--text);
+    outline:none;
+  }
+  .input::placeholder { color:#77797b; }
+
+  .input:focus{
+    border-color:var(--accent-strong);
+    box-shadow: 0 0 0 4px rgba(26,115,232,0.08);
+  }
+
+  .small-link { color:var(--accent); font-size:14px; text-decoration:none; }
+  .small-link:hover { text-decoration:underline; }
+
+  .helper {
+    color:var(--muted); font-size:13px; line-height:1.4;
+  }
+
+  .actions {
+    display:flex; justify-content:flex-end; align-items:center; gap:16px; margin-top:12px;
+  }
+
+  .btn-text{
+    background:none; border:none; color:var(--accent); padding:6px 10px; font-weight:600; cursor:pointer; border-radius:8px;
+  }
+  .btn-primary {
+    background:var(--accent);
+    color:#0b0f14;
+    border:none;
+    padding:10px 16px;
+    height:42px;
+    border-radius:999px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+  }
+  .btn-primary:hover{ filter:brightness(1.03); }
+
+  /* Step container transitions */
+  .step { transition:opacity .28s ease, transform .28s ease; }
+  .hidden { opacity:0; transform: translateX(16px); pointer-events:none; height:0; overflow:hidden; }
+  .visible { opacity:1; transform: translateX(0); pointer-events:auto; }
+
+  /* footer under card */
+  .card-footer {
+    margin-top:18px;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+    font-size:13px;
+    padding-left:6px;
+  }
+
+  /* responsive */
+  @media (max-width:860px){
+    .card{flex-direction:column; padding:24px;}
+    .right{width:100%;}
+    .title{font-size:34px}
+  }
+</style>
+</head>
+<body>
+  <div style="width:100%;max-width:1200px;">
+    <div class="card" role="main" aria-label="Sign in demo card">
+      <div class="demo-banner">DEMO — Do not enter real credentials</div>
+
+      <div class="left" aria-hidden="false">
+        <div class="logo" aria-hidden="true"></div>
+        <h1 class="title">Sign in</h1>
+        <p class="desc">with your account. This account will be available to other apps in this browser.</p>
+      </div>
+
+      <div class="right">
+        <!-- STEP 1 -->
+        <div id="step1" class="step visible" aria-live="polite">
+          <div style="display:flex;justify-content:flex-end;">
+            <!-- optional small placeholder top-right -->
+          </div>
+
+          <div class="form-row" style="margin-top:6px;">
+            <input id="email" class="input" placeholder="Email or phone" inputmode="email" aria-label="Email or phone" />
+          </div>
+
+          <a href="#" class="small-link" style="margin-top:6px;">Forgot email?</a>
+
+          <p class="helper" style="margin-top:12px;">
+            Not your computer? Use Guest mode to sign in privately.
+            <a href="#" class="small-link">Learn more</a>
+          </p>
+
+          <div class="actions">
+            <button class="btn-text" id="createAccount">Create account</button>
+            <button class="btn-primary" id="toPassword">Next</button>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div id="step2" class="step hidden" aria-live="polite">
+          <p style="margin:0 0 8px 0; font-size:15px; color:var(--muted);" id="showEmail"> </p>
+
+          <div class="form-row" style="margin-top:8px;">
+            <input id="password" class="input" type="password" placeholder="Enter your password" aria-label="Password" />
+          </div>
+
+          <a href="#" class="small-link" style="margin-top:6px;">Forgot password?</a>
+
+          <div class="actions" style="margin-top:20px;">
+            <button class="btn-text" id="backBtn">Back</button>
+            <button class="btn-primary" id="submitBtn">Next</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="cursor:pointer;">English (United States)</span>
+        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L5 5L9 1" stroke="#bfc3c6" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+      <div style="display:flex;gap:18px;">
+        <a href="#" style="color:var(--muted);text-decoration:none">Help</a>
+        <a href="#" style="color:var(--muted);text-decoration:none">Privacy</a>
+        <a href="#" style="color:var(--muted);text-decoration:none">Terms</a>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Simple client-side flow; nothing is sent anywhere.
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  const toPassword = document.getElementById('toPassword');
+  const backBtn = document.getElementById('backBtn');
+  const showEmail = document.getElementById('showEmail');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // helper to toggle
+  function showStep(s1, s2) {
+    s1.classList.add('hidden');
+    s1.classList.remove('visible');
+    s2.classList.remove('hidden');
+    s2.classList.add('visible');
+  }
+
+  toPassword.addEventListener('click', function(){
+    const v = (emailInput.value || '').trim();
+    if (!v) {
+      // subtle inline validation instead of alert for better UX
+      emailInput.focus();
+      emailInput.style.outline = '3px solid rgba(255,50,50,0.12)';
+      setTimeout(()=> emailInput.style.outline = '', 900);
+      return;
+    }
+    showEmail.textContent = v;
+    showStep(step1, step2);
+    passwordInput.focus();
+  });
+
+  backBtn.addEventListener('click', function(){
+    showStep(step2, step1);
+    emailInput.focus();
+  });
+
+  // Demo submit: show a success message but do not send data anywhere.
+  submitBtn.addEventListener('click', function(){
+    // password presence check
+    if (!passwordInput.value) {
+      passwordInput.focus();
+      passwordInput.style.outline = '3px solid rgba(255,50,50,0.12)';
+      setTimeout(()=> passwordInput.style.outline = '', 900);
+      return;
+    }
+    // visual success - replace right pane with a demo confirmation
+    const right = submitBtn.closest('.right');
+    right.innerHTML = `
+      <div style="padding:18px;">
+        <h2 style="margin:0 0 8px 0;font-size:20px;color:var(--text)">Signed in (demo)</h2>
+        <p style="color:var(--muted);margin:0 0 14px 0">This is a local demo only. No credentials were transmitted.</p>
+        <div style="display:flex;gap:10px;">
+          <button onclick="location.reload()" style="background:transparent;border:1px solid var(--input-border);padding:8px 12px;border-radius:8px;color:var(--text);cursor:pointer">Start over</button>
+        </div>
+      </div>
+    `;
+  });
+
+  // Prevent forms/links from navigating away
+  document.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', e => e.preventDefault());
+  });
+</script>
+</body>
+</html>
